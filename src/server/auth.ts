@@ -1,23 +1,21 @@
-import { NextApiRequest, type GetServerSidePropsContext } from "next";
+import type { NextApiRequest, GetServerSidePropsContext } from "next";
 import {
   getServerSession,
-  type NextAuthOptions,
   type DefaultSession,
+  type NextAuthOptions,
 } from "next-auth";
 
-import { RelyingParty } from 'openid'
+import { RelyingParty } from 'openid';
 
-import DiscordProvider from "next-auth/providers/discord";
-import Steam, { PROVIDER_ID } from 'next-auth-steam'
+import Steam, { PROVIDER_ID } from 'next-auth-steam';
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { env } from "~/env.mjs";
-import { prisma } from "~/server/db";
-import { IncomingMessage } from "http";
-import { AdapterAccount } from "next-auth/adapters";
-import { SteamProviderOptions } from "next-auth-steam/lib/steam";
-import { TokenSet } from "openid-client";
 import { randomUUID } from "crypto";
+import type { IncomingMessage } from "http";
+import type { SteamProviderOptions } from "next-auth-steam/lib/steam";
+import type { AdapterAccount } from "next-auth/adapters";
+import { TokenSet } from "openid-client";
+import { prisma } from "~/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -72,7 +70,7 @@ export const createAuthOptions = (req: IncomingMessage): NextAuthOptions => ({
     //   clientSecret: env.DISCORD_CLIENT_SECRET,
     // }),
     SteamProvider(req as NextApiRequest, {
-      clientSecret: process.env.STEAM_SECRET!,
+      clientSecret: process.env.STEAM_SECRET,
       callbackUrl: 'http://localhost:3000/api/auth/callback'
     })
     /**
@@ -107,15 +105,15 @@ function SteamProvider(req: NextApiRequest, options: SteamProviderOptions): Retu
   // https://example.com/api/auth/callback/steam
   const realm = callbackUrl.origin
   const returnTo = `${callbackUrl.href}/${PROVIDER_ID}`
-  
+
   return {
     ...Steam(req, options),
     token: {
       async request() {
         // May throw an error, dunno should I handle it or no
+        if (!req.url) throw new Error('Unauthenticated')
         // prettier-ignore
-        
-        const claimedIdentifier = await verifyAssertion(req.url!, realm, returnTo)
+        const claimedIdentifier = await verifyAssertion(req.url, realm, returnTo)
 
         if (!claimedIdentifier) {
           throw new Error('Unauthenticated')
@@ -158,15 +156,15 @@ async function verifyAssertion(
     party.verifyAssertion(url, (error, result) => {
       if (error) {
         reject(error)
-      } else {
-        resolve(result!)
+      } else if (result) {
+        resolve(result)
       }
     })
   })
 
-  if (!result.authenticated) {
+  if (!result.authenticated || !result.claimedIdentifier) {
     return null
   }
 
-  return result.claimedIdentifier!
+  return result.claimedIdentifier
 }

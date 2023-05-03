@@ -1,10 +1,9 @@
-import * as React from "react"
 import Link from "next/link"
 
-import { NavItem } from "~/types/nav"
+import { Icons } from "~/components/icons"
 import { siteConfig } from "~/config/site"
 import { cn } from "~/lib/utils"
-import { Icons } from "~/components/icons"
+import { type NavItem } from "~/types/nav"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
 
 interface MainNavProps {
@@ -25,7 +24,7 @@ export function MainNav({ items }: MainNavProps) {
                     {items?.map(
                         (item, index) =>
                             item.disabled ? (
-                                <TooltipProvider>
+                                <TooltipProvider key={index}>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
                                             <p

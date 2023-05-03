@@ -1,16 +1,13 @@
-import Link from "next/link"
 
-import { siteConfig } from "~/config/site"
-import { Button, buttonVariants } from "~/components/ui/button"
-import { Icons } from "~/components/icons"
+import { LogOutIcon } from "lucide-react"
+import { PROVIDER_ID as SteamProviderId } from "next-auth-steam"
+import { signIn, signOut, useSession } from "next-auth/react"
+import Image from "next/image"
 import { MainNav } from "~/components/main-nav"
 import { ThemeToggle } from "~/components/theme-toggle"
+import { siteConfig } from "~/config/site"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { signIn, signOut, useSession } from "next-auth/react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { LogOutIcon, User } from "lucide-react"
-import { PROVIDER_ID as SteamProviderId } from "next-auth-steam"
-import Image from "next/image"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
 export function SiteHeader() {
     const session = useSession()

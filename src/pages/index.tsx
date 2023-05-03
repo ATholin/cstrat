@@ -1,11 +1,7 @@
 import { type NextPage } from "next";
-import { signIn, useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 
 const Home: NextPage = () => {
-  const session = useSession()
-
   return (
     <>
       <Head>
@@ -14,7 +10,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        
+
       </main>
     </>
   );
