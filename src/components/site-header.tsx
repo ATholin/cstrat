@@ -1,17 +1,10 @@
 
-import { LogOutIcon } from "lucide-react"
-import { PROVIDER_ID as SteamProviderId } from "next-auth-steam"
-import { SessionProvider, signIn, signOut, useSession } from "next-auth/react"
-import Image from "next/image"
+import { getServerSession } from "next-auth"
 import { MainNav } from "~/components/main-nav"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { siteConfig } from "~/config/site"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { getServerSession } from "next-auth"
-import SignIn from "./sign-in"
-import { NextPage } from "next"
 import { createAuthOptions } from "~/server/auth"
+import SignIn from "./sign-in"
 import SignOut from "./sign-out"
 
 export default async function SiteHeader() {
