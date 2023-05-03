@@ -26,6 +26,7 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: z.string().optional(),
     DISCORD_CLIENT_SECRET: z.string().optional(),
     STEAM_SECRET: z.string(),
+    STEAM_REDIRECT_URI: z.string(),
   },
 
   /**
@@ -54,5 +55,6 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     STEAM_SECRET: process.env.STEAM_SECRET,
+    STEAM_REDIRECT_URI: process.env.STEAM_REDIRECT_URI,
   },
 });

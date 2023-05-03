@@ -71,7 +71,7 @@ export const createAuthOptions = (req: IncomingMessage): NextAuthOptions => ({
     // }),
     SteamProvider(req as NextApiRequest, {
       clientSecret: process.env.STEAM_SECRET,
-      callbackUrl: 'http://localhost:3000/api/auth/callback'
+      callbackUrl: process.env.STEAM_REDIRECT_URI ?? "http://localhost:3000/api/auth/callback"
     })
     /**
      * ...add more providers here.
