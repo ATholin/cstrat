@@ -45,7 +45,7 @@ const prismaAdapter = PrismaAdapter(prisma)
  *
  * @see https://next-auth.js.org/configuration/options
  */
-export const createAuthOptions = (req: IncomingMessage): NextAuthOptions => ({
+export const createAuthOptions = (req?: IncomingMessage): NextAuthOptions => ({
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
