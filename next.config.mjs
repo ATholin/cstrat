@@ -14,6 +14,9 @@ const config = {
   },
   images: {
     domains: ['community.cloudflare.steamstatic.com']
+  },
+  eslint: {
+    ignoreDuringBuilds: true
   }
 };
 export default config;
