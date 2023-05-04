@@ -8,13 +8,12 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   experimental: {
-    appDir: true
+    appDir: true,
+    // @ts-ignore Server Actions
+    serverActions: true
   },
-
   images: {
-    remotePatterns: [
-      { hostname: 'community.cloudflare.steamstatic.com'}
-    ]
+    domains: ['community.cloudflare.steamstatic.com']
   }
 };
 export default config;

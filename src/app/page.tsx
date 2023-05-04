@@ -1,10 +1,20 @@
+
+import { PROVIDER_ID as SteamProviderId } from "next-auth-steam";
 import Head from "next/head";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { TypographyH2, TypographyLarge, TypographyMuted } from "~/components/ui/typography";
 import { prisma } from "~/server/db";
 
 export default async function Home() {
-    const users = await prisma.user.findMany()
+    const users = await prisma.user.findMany({
+        include: {
+            accounts: {
+                where: {
+                    provider: SteamProviderId
+                }
+            }
+        }
+    })
 
     return (
         <>
@@ -27,7 +37,7 @@ export default async function Home() {
                             </div>
                             <div>
                                 <TypographyLarge>{user.name}</TypographyLarge>
-                                <TypographyMuted>{user.email}</TypographyMuted>
+                                <TypographyMuted>{user.accounts[0]?.providerAccountId}</TypographyMuted>
                             </div>
                         </div>
                     ))}

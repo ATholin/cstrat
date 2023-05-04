@@ -42,14 +42,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     )}
                 >
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                        <NextAuthProvider>
-                            <div className="relative flex min-h-screen flex-col">
-                                {/* @ts-expect-error Server Component */}
-                                <SiteHeader />
-                                <div className="flex-1">{children}</div>
-                            </div>
-                            <TailwindIndicator />
-                        </NextAuthProvider>
+                        <div className="relative flex min-h-screen flex-col">
+                            {/* @ts-expect-error Server Component */}
+                            <SiteHeader />
+                            <div className="flex-1">{children}</div>
+                        </div>
+                        <TailwindIndicator />
                     </ThemeProvider>
                 </body>
             </html>

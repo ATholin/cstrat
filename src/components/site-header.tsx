@@ -6,6 +6,7 @@ import { siteConfig } from "~/config/site"
 import { createAuthOptions } from "~/server/auth"
 import SignIn from "./sign-in"
 import SignOut from "./sign-out"
+import { NextAuthProvider } from "~/app/providers"
 
 export default async function SiteHeader() {
     const session = await getServerSession(createAuthOptions())
@@ -32,12 +33,14 @@ export default async function SiteHeader() {
                             </div>
                         </Link> */}
                         <ThemeToggle />
-                        {session?.user && (
-                            <SignOut />
-                        )}
-                        {!session?.user && (
-                            <SignIn />
-                        )}
+                        <NextAuthProvider>
+                            {session?.user && (
+                                <SignOut />
+                            )}
+                            {!session?.user && (
+                                <SignIn />
+                            )}
+                        </NextAuthProvider>
                     </nav>
                 </div>
             </div>
