@@ -7,7 +7,6 @@ import { ThemeProvider } from "~/components/theme-provider"
 import { siteConfig } from "~/config/site"
 import { fontSans } from "~/lib/fonts"
 import { cn } from "~/lib/utils"
-import { NextAuthProvider } from "./providers"
 
 export const metadata: Metadata = {
     title: {
