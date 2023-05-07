@@ -60,3 +60,29 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Strategy {
+  id            String    @id @default(cuid())
+  title         String
+  description   String
+  map           Map
+  side          Side?
+}
+
+enum Map {
+  MIRAGE
+  INFERNO
+  NUKE
+  ANCIENT
+  VERTIGO
+  OVERPASS
+  ANUBIS
+  DUST2
+  TRAIN
+  CACHE
+}
+
+enum Side {
+  COUNTERTERRORISTS
+  TERRORISTS
+}

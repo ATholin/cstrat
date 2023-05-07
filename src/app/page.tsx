@@ -16,6 +16,8 @@ export default async function Home() {
         }
     })
 
+    const strategy = await prisma.strategy.findFirst();
+
     return (
         <>
             <Head>
@@ -41,6 +43,10 @@ export default async function Home() {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className="mt-2">
+                    <TypographyH2>{strategy?.title}</TypographyH2>
+                    <p>{strategy?.description}</p>
                 </div>
 
             </main>
