@@ -65,7 +65,7 @@ model Strategy {
   id            String    @id @default(cuid())
   title         String
   description   String
-  map           Map
+  map           Map?
   side          Side?
 }
 
