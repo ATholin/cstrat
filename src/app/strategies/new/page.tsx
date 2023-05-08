@@ -1,23 +1,26 @@
-import { Map } from "@prisma/client"
+import { Map, Side } from "@prisma/client"
 import { redirect } from "next/navigation"
 import GenerateStrategyButton from "~/components/generate-strategy-button"
 import { MapSelect } from "~/components/map-select"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~/components/ui/select"
 import { TypographyHeading } from "~/components/ui/typography"
 import { prisma } from "~/server/db"
 
 async function createStrategy(formData: FormData) {
     "use server"
 
+    console.log(formData.get('side'))
+
     const maps = formData.getAll('maps') as Map[]
-    console.log(maps)
     await prisma.strategy.create({
         data: {
             title: formData.get('title')?.toString() ?? "",
             description: formData.get('description')?.toString() ?? "",
-            map: maps?.[0]
+            map: maps?.[0],
+            side: formData.has('side') ? formData.get('side') as Side : null
         }
     })
 
@@ -48,10 +51,30 @@ export default async function AddStrategy() {
                     <Input required className="mt-1" name="description" placeholder="Kill all chickens before planting the bomb" />
                 </div>
 
-                <div className="mt-4">
-                    <Label htmlFor="map">Map</Label>
-                    <div className="mt-1">
-                        <MapSelect />
+
+                <div className="mt-4 flex justify-between space-x-4">
+                    <div>
+                        <Label htmlFor="map">Map</Label>
+                        <div className="mt-1">
+                            <MapSelect />
+                        </div>
+                    </div>
+                    <div className="w-full">
+                        <Label htmlFor="map">Side</Label>
+                        <div className="mt-1 w-full">
+                            <Select name="side">
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a side" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="">Any side</SelectItem>
+                                        <SelectItem value={Side.COUNTERTERRORISTS}>Counter-Terrorists</SelectItem>
+                                        <SelectItem value={Side.TERRORISTS}>Terrorists</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
 

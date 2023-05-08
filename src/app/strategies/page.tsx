@@ -1,4 +1,5 @@
 
+import { Side } from "@prisma/client"
 import Link from "next/link"
 import LikeStrategy from "~/components/like-strategy-button"
 import { Badge } from "~/components/ui/badge"
@@ -6,7 +7,10 @@ import { buttonVariants } from "~/components/ui/button"
 import { cn } from "~/lib/utils"
 import { prisma } from "~/server/db"
 
-
+const sides = {
+    [Side.COUNTERTERRORISTS]: 'CT',
+    [Side.TERRORISTS]: 'T'
+} as const
 
 export default async function Strategies() {
     const strategies = await prisma.strategy.findMany()
@@ -39,7 +43,7 @@ export default async function Strategies() {
                                     {strategy.title}
                                 </p>
                                 {strategy.map && <Badge variant="outline">{strategy.map}</Badge>}
-                                {strategy.side && <Badge variant="outline">{strategy.side}</Badge>}
+                                {strategy.side && <Badge variant="secondary">{sides[strategy.side]}</Badge>}
                             </div>
                             <p className="text-sm text-muted-foreground">
                                 {strategy.description}
