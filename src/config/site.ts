@@ -12,7 +12,6 @@ export const siteConfig = {
     {
       title: "Strategies",
       href: "/strategies",
-      disabled: true
     },
   ],
   links: {
