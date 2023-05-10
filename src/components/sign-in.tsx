@@ -6,8 +6,8 @@ import Image from "next/image"
 
 export default function SignIn() {
     return (
-        <button onClick={() => signIn(SteamProviderId)}>
-            <Image width="180" height="1" src='https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png' alt='Sign in through Steam' />
+        <button className="h-full" onClick={() => signIn(SteamProviderId)}>
+            <Image priority width="180" height="35" src='https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_01.png' alt='Sign in through Steam' />
         </button>
     )
 }

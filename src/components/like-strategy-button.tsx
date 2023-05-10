@@ -24,7 +24,7 @@ export default function LikeStrategy({ id, like }: { id: string, like: (id: stri
 
     return (
         <>
-            <Button onClick={handleLike} disabled={liked} variant='ghost'>
+            <Button title="Like strategy" onClick={handleLike} disabled={liked} variant='ghost'>
                 <ThumbsUp size={20} />
             </Button>
         </>

@@ -45,7 +45,7 @@ export default async function Strategies() {
                                 </p>
                                 <TooltipProvider>
                                     <Tooltip>
-                                        <TooltipTrigger>
+                                        <TooltipTrigger title="Show tags">
                                             <Badge className="md:hidden">...</Badge>
                                         </TooltipTrigger>
                                         <TooltipContent>

@@ -69,6 +69,7 @@ export function MainNav({ items }: MainNavProps) {
             <div className="md:hidden">
                 <Sheet open={open} onOpenChange={setOpen}>
                     <SheetTrigger className="flex items-center">
+                        <p className="sr-only">Open menu</p>
                         <Icons.logo className="h-5 w-5" />
                         <ChevronRight />
                     </SheetTrigger>
