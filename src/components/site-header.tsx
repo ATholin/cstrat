@@ -1,12 +1,12 @@
 
 import { getServerSession } from "next-auth"
+import { NextAuthProvider } from "~/app/providers"
 import { MainNav } from "~/components/main-nav"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { siteConfig } from "~/config/site"
 import { createAuthOptions } from "~/server/auth"
 import SignIn from "./sign-in"
 import SignOut from "./sign-out"
-import { NextAuthProvider } from "~/app/providers"
 
 export default async function SiteHeader() {
     const session = await getServerSession(createAuthOptions())
