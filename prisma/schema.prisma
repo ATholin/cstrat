@@ -55,6 +55,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  role          UserRole @default(USER)
 }
 
 model VerificationToken {
@@ -71,6 +72,7 @@ model Strategy {
   description String
   maps        Map[]
   side        Side?
+  approved    Boolean @default(false)
 }
 
 enum Map {
@@ -84,6 +86,12 @@ enum Map {
   DUST2
   TRAIN
   CACHE
+}
+
+enum UserRole {
+  ADMIN
+  PREMIUM
+  USER
 }
 
 enum Side {

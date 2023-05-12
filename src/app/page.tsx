@@ -1,23 +1,24 @@
-
-import { PROVIDER_ID as SteamProviderId } from "next-auth-steam";
 import Head from "next/head";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { TypographyH2, TypographyLarge, TypographyMuted } from "~/components/ui/typography";
 import { prisma } from "~/server/db";
+import { Map } from "@prisma/client"
+import StrategyCard from "~/components/strategy-card";
+
+async function GetRandomStrategy(map: Map) {
+    "use server"
+    const productsCount = (await prisma.strategy.findMany()).length
+    const skip = Math.floor(Math.random() * productsCount);
+    const strategy = await prisma.strategy.findFirst({
+        where: {maps: {hasSome: map}},
+        skip: skip,
+        orderBy: {
+            id: 'desc'
+        },
+    });
+    return strategy;
+    // ta hand om tomt svar
+}
 
 export default async function Home() {
-    const users = await prisma.user.findMany({
-        include: {
-            accounts: {
-                where: {
-                    provider: SteamProviderId
-                }
-            }
-        }
-    })
-
-    const strategy = await prisma.strategy.findFirst();
-
     return (
         <>
             <Head>
@@ -25,30 +26,8 @@ export default async function Home() {
                 <meta name="description" content="Counter-Strike Stratroulette" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className="mt-8 container max-w-sm">
-                <TypographyH2>Users</TypographyH2>
-
-                <div className="mt-4">
-                    {users.map(user => (
-                        <div key={user.id} className="flex space-x-4">
-                            <div className="flex items-center">
-                                <Avatar>
-                                    <AvatarImage src={user.image ?? ""} />
-                                    <AvatarFallback>{user.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                </Avatar>
-                            </div>
-                            <div>
-                                <TypographyLarge>{user.name}</TypographyLarge>
-                                <TypographyMuted>{user.accounts[0]?.providerAccountId}</TypographyMuted>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="mt-2">
-                    <TypographyH2>{strategy?.title}</TypographyH2>
-                    <p>{strategy?.description}</p>
-                </div>
-
+            <main className="mt-8 container max-w-lg">
+                <StrategyCard getRandomStrategy={GetRandomStrategy}/>
             </main>
         </>
     );
