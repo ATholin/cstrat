@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
   // If you want to use Prisma Migrate, you will need to manually create a shadow database
   // https://neon.tech/docs/guides/prisma-migrate#configure-a-shadow-database-for-prisma-migrate
@@ -48,14 +48,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   role          UserRole @default(USER)
+  lobbies       UsersInLobby[]
+  ownedLobbies  Lobby[]
 }
 
 model VerificationToken {
@@ -67,12 +69,13 @@ model VerificationToken {
 }
 
 model Strategy {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
   maps        Map[]
   side        Side?
   approved    Boolean @default(false)
+  lobbies     Lobby[]
 }
 
 enum Map {
@@ -97,4 +100,32 @@ enum UserRole {
 enum Side {
   COUNTERTERRORISTS
   TERRORISTS
+}
+
+model Lobby {
+  id      String @id @default(cuid())
+  shareId String
+
+  strategyId String?
+  strategy   Strategy? @relation(fields: [strategyId], references: [id], onDelete: Cascade)
+
+  map  Map?
+  side Side?
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  users UsersInLobby[]
+}
+
+model UsersInLobby {
+  lobby   Lobby  @relation(fields: [lobbyId], references: [id])
+  lobbyId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  assignedAt DateTime @default(now())
+
+  @@id([userId, lobbyId])
 }
