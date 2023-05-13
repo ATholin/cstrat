@@ -32,37 +32,9 @@ export default async function Strategies() {
                     Suggest strategy
                 </Link>
             </div>
-            <div className="mt-6 space-y-2">
-                {strategies.map(strategy => (
-                    <div key={strategy.id} className="flex items-center space-x-4 rounded-md border p-4">
-                        <div className="flex-1 space-y-1">
-                            <div className="flex items-center space-x-2">
-                                <p className="text-sm font-medium leading-none">
-                                    {strategy.title}
-                                </p>
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger title="Show tags">
-                                            <Badge className="md:hidden">...</Badge>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            {strategy.maps.map(map => <Badge variant="outline">{map}</Badge>)}
-                                            {strategy.side && <Badge variant="secondary">{sides[strategy.side]}</Badge>}
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                                {strategy.maps.map(map => <Badge className="hidden md:block" variant="outline">{map}</Badge>)}
-                                {strategy.side && <Badge className="hidden md:block" variant="secondary">{sides[strategy.side]}</Badge>}
-                            </div>
-                            <p className="text-sm text-muted-foreground">
-                                {strategy.description}
-                            </p>
-                        </div>
-                        <LikeStrategy id={strategy.id} like={like} />
-                    </div>
-                ))}
+            <div className="mt-2">
+                <DataTable columns={columns} data={strategies}/>
             </div>
-            <DataTable columns={columns} data={strategies}/>
         </div>
     )
 }

@@ -4,20 +4,21 @@ import { ThumbsUp } from "lucide-react"
 import { Button } from "./ui/button"
 import { useToast } from "./ui/use-toast"
 import { FormEvent, useState } from "react"
-import { TypographyH2, TypographyP } from "./ui/typography"
+import { TypographyH1, TypographyH2, TypographyH3, TypographyLead, TypographyP } from "./ui/typography"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { maps } from "~/utils/map-names"
 import { sides } from "~/utils/side-names"
 import { GetRandomStrategy, GetRandomStrategyOptions } from "~/api/getRandomStrategy"
+import Balancer from 'react-wrap-balancer'
 
 type Props = {
-    getRandomStrategy: typeof GetRandomStrategy
+    getRandomStrategy: typeof GetRandomStrategy,
+    initialStrategy: Strategy | null
 }
 
-export default function StrategyCard({ getRandomStrategy }: Props) {
+export default function StrategyCard({ getRandomStrategy, initialStrategy }: Props) {
     const { toast } = useToast()
-
-    const [strategy, setStrategy] = useState<Strategy | null>(null);
+    const [strategy, setStrategy] = useState<Strategy | null>(initialStrategy);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -37,7 +38,7 @@ export default function StrategyCard({ getRandomStrategy }: Props) {
 
     return (
         <form onSubmit={onSubmit}>
-            <div className="mt-4 flex justify-between space-x-4">
+            <div className="container max-w-lg mt-4 flex justify-between space-x-4">
                         <Select name="map">    
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select a map" />
@@ -62,9 +63,9 @@ export default function StrategyCard({ getRandomStrategy }: Props) {
                         </Select>
                         <Button>New strategy</Button>
                     </div> 
-            <div className="mt-5">  
-                    <TypographyH2>{strategy?.title ?? 'No strategy found'}</TypographyH2>
-                    <TypographyP>{strategy?.description}</TypographyP>
+            <div className="mt-8">
+                    <TypographyH1 className="text-center"><Balancer>{strategy?.title ?? 'No strategy found'}</Balancer></TypographyH1>
+                    <TypographyLead className="text-center mt-4"><Balancer>{strategy?.description}</Balancer></TypographyLead>
                 </div>                
         </form>
     )
