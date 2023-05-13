@@ -77,7 +77,7 @@ model Strategy {
   side        Side?
   approved    Boolean @default(false)
   lobbies     Lobby[]
-  likes       Int
+  likes       Int @default(0)
 }
 
 enum Map {
