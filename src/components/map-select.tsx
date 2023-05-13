@@ -36,7 +36,7 @@ export function MapSelect() {
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="w-[400px] justify-between"
+                        className="w-full justify-between"
                     >
                         {mapArray.length === 0 && 'Select maps...'}
                         {mapArray.length === 1 && mapArray[0]}
