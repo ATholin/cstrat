@@ -50,8 +50,8 @@ export default async function AddStrategy() {
                 </div>
 
 
-                <div className="mt-4 flex justify-between space-x-4">
-                    <div>
+                <div className="mt-4 space-y-2 md:space-y-0 flex flex-col md:flex-row justify-between md:space-x-4">
+                    <div className="w-full">
                         <Label htmlFor="map">Map</Label>
                         <div className="mt-1">
                             <MapSelect />
