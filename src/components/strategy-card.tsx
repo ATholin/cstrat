@@ -1,27 +1,17 @@
 "use client"
-import { Map, Strategy } from "@prisma/client"
+import { Map, Side, Strategy } from "@prisma/client"
 import { ThumbsUp } from "lucide-react"
 import { Button } from "./ui/button"
 import { useToast } from "./ui/use-toast"
 import { FormEvent, useState } from "react"
 import { TypographyH2, TypographyP } from "./ui/typography"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { maps } from "~/utils/map-names"
+import { sides } from "~/utils/side-names"
+import { GetRandomStrategy, GetRandomStrategyOptions } from "~/api/getRandomStrategy"
 
 type Props = {
-    getRandomStrategy: (map: Map) => Promise<Strategy | null>
-}
-
-const maps = {
-    [Map.MIRAGE]: 'Mirage',
-    [Map.INFERNO]: 'Inferno',
-    [Map.NUKE]: 'Nuke',
-    [Map.ANCIENT]: 'Ancient',
-    [Map.VERTIGO]: 'Vertigo',
-    [Map.OVERPASS]: 'Overpass',
-    [Map.ANUBIS]: 'Anubis',
-    [Map.DUST2]: 'Dust2',
-    [Map.TRAIN]: 'Train',
-    [Map.CACHE]: 'Cache',
+    getRandomStrategy: typeof GetRandomStrategy
 }
 
 export default function StrategyCard({ getRandomStrategy }: Props) {
@@ -32,11 +22,18 @@ export default function StrategyCard({ getRandomStrategy }: Props) {
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        console.log(formData.get("map"));
-        const result = await getRandomStrategy(formData.get("map") as Map);
+
+        const map = formData.get('map')
+        const side = formData.get('side')
+        
+        const options: GetRandomStrategyOptions = {
+            map: map === "" ? undefined : map as Map,
+            side: side === "" ? undefined : side as Side,
+        }
+
+        const result = await getRandomStrategy(options);
         setStrategy(result);
     }
-
 
     return (
         <form onSubmit={onSubmit}>
@@ -47,7 +44,19 @@ export default function StrategyCard({ getRandomStrategy }: Props) {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
+                                    <SelectItem value="">Any</SelectItem>
                                     {Object.keys(Map).map(m => <SelectItem value={m} key={m}>{maps[m as Map]}</SelectItem>)}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        <Select name="side">    
+                            <SelectTrigger className="w-[100px]">
+                                <SelectValue placeholder="Side" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="">Any</SelectItem>
+                                    {Object.keys(Side).map(s => <SelectItem value={s} key={s}>{sides[s as Side]}</SelectItem>)}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
