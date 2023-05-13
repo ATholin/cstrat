@@ -7,6 +7,7 @@ import { prisma } from "~/server/db";
 
 export default async function Lobby() {
     const session = await getSession()
+    console.log(session?.user)
     const lobby = await prisma.lobby.findFirst({
         where: {
             users: {

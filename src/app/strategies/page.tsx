@@ -7,6 +7,10 @@ import { buttonVariants } from "~/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip"
 import { cn } from "~/lib/utils"
 import { prisma } from "~/server/db"
+import { DataTable } from "./datatable"
+import { columns } from "./columns"
+import like from "~/api/like"
+
 
 const sides = {
     [Side.COUNTERTERRORISTS]: 'CT',
@@ -15,13 +19,6 @@ const sides = {
 
 export default async function Strategies() {
     const strategies = await prisma.strategy.findMany()
-
-    async function like(id: string) {
-        "use server"
-        console.log("liked", id)
-        return true
-    }
-
     return (
         <div className="container max-w-4xl">
             <div className="flex items-center justify-between">
@@ -65,6 +62,7 @@ export default async function Strategies() {
                     </div>
                 ))}
             </div>
+            <DataTable columns={columns} data={strategies}/>
         </div>
     )
 }

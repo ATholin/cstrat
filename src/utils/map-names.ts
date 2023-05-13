@@ -11,4 +11,4 @@ export const maps = {
     [Map.DUST2]: 'Dust2',
     [Map.TRAIN]: 'Train',
     [Map.CACHE]: 'Cache',
-}
+} as const

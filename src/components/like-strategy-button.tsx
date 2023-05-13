@@ -5,14 +5,15 @@ import { ThumbsUp } from "lucide-react"
 import { Button } from "./ui/button"
 import { useToast } from "./ui/use-toast"
 import { useState } from "react"
+import like from '~/api/like';
 
-export default function LikeStrategy({ id, like }: { id: string, like: (id: string) => Promise<boolean> }) {
+export default function LikeStrategy({ id, ...props }: { id: string, like: typeof like }) {
     const { toast } = useToast()
 
     const [liked, setLiked] = useState(false)
 
     async function handleLike() {
-        const result = await like(id)
+        const result = await props.like(id)
         if (result) {
             setLiked(true)
             toast({

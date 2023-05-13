@@ -53,6 +53,7 @@ export const createAuthOptions = (req?: IncomingMessage): NextAuthOptions => ({
       ...session,
       user: {
         ...session.user,
+        ...user,
         id: user.id,
       },
     }),
