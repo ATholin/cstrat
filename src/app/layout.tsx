@@ -60,7 +60,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                             <div className="relative flex min-h-screen flex-col space-y-6">
                                 {/* @ts-expect-error Server Component */}
                                 <SiteHeader />
-                                <div className="flex-1">{children}</div>
+                                <div className="flex-1 flex">{children}</div>
                             </div>
                         </ThemeProvider>
                     </NextAuthProvider>

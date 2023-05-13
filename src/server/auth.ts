@@ -16,6 +16,7 @@ import type { SteamProviderOptions } from "next-auth-steam/lib/steam";
 import type { AdapterAccount } from "next-auth/adapters";
 import { TokenSet } from "openid-client";
 import { prisma } from "~/server/db";
+import { Lobby, UserRole } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -28,7 +29,8 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: UserRole;
+      lobbyId: string
     } & DefaultSession["user"];
   }
 

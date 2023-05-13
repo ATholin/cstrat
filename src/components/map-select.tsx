@@ -1,30 +1,3 @@
-// "use client"
-
-// import { Map } from "@prisma/client"
-// import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
-// import { SelectProps } from "@radix-ui/react-select"
-
-// export function MapSelect(props: SelectProps) {
-
-
-//     return (
-//         <Select name="map" {...props}>
-//             <SelectTrigger className="mt-1">
-//                 <SelectValue placeholder="Select a map" />
-//             </SelectTrigger>
-//             <SelectContent>
-//                 <SelectGroup>
-//                     <SelectLabel>Maps</SelectLabel>
-//                     <SelectItem value="">Any</SelectItem>
-//                     {Object.keys(Map).map(m => (
-//                         <SelectItem key={m} value={m}>{m}</SelectItem>
-//                     ))}
-//                 </SelectGroup>
-//             </SelectContent>
-//         </Select>
-//     )
-// }
-
 "use client"
 
 import * as React from "react"

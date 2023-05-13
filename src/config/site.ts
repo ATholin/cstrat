@@ -13,6 +13,10 @@ export const siteConfig = {
       title: "Strategies",
       href: "/strategies",
     },
+    {
+      title: "Lobby",
+      href: "/lobby",
+    },
   ],
   links: {
   },
