@@ -56,11 +56,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
   role          UserRole  @default(USER)
-
-  // Relation to owned lobbies
-  ownedLobbies  Lobby[] @relation("OwnedLobbies")
-  // Relation to lobbies they have joined
-  joinedLobbies Lobby[] @relation("JoinedLobbies")
+  lobbyId       String?
+  lobby         Lobby?    @relation("LobbyUsers", fields: [lobbyId], references: [id])
+  ownedLobby    Lobby?
 }
 
 model VerificationToken {
@@ -106,19 +104,13 @@ enum Side {
 }
 
 model Lobby {
-  id      String @id @default(cuid())
-  shareId String
-
+  id         String    @id @default(cuid())
+  shareId    String
   strategyId String?
   strategy   Strategy? @relation(fields: [strategyId], references: [id], onDelete: SetNull)
-
-  map  Map?
-  side Side?
-
-  // Relation to owner
-  owner   User   @relation("OwnedLobbies", fields: [ownerId], references: [id])
-  ownerId String
-
-  // Relations to players who have joined
-  players User[] @relation("JoinedLobbies")
+  map        Map?
+  side       Side?
+  ownerId    String    @unique
+  owner      User      @relation(fields: [ownerId], references: [id])
+  users      User[]    @relation("LobbyUsers")
 }

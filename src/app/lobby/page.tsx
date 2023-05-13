@@ -9,7 +9,7 @@ export default async function Lobby() {
     const session = await getSession()
     const lobby = await prisma.lobby.findFirst({
         where: {
-            players: {
+            users: {
                 some: {
                     id: session?.user.id
                 }
