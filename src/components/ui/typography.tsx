@@ -54,3 +54,11 @@ export function TypographyHeading({ children, ...props }: Props & HTMLAttributes
         </h1>
     )
 }
+
+export function TypographyLead({ children, ...props }: Props & HTMLAttributes<HTMLParagraphElement>) {
+    return (
+        <p {...props} className={cn("text-xl text-muted-foreground", props.className)}>
+            {children}
+        </p>
+    )
+}

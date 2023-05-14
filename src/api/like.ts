@@ -13,5 +13,12 @@ export default async function like(id: string) {
         data: {
             approved: true
         }
-    }): true
+    }) : await prisma.strategy.update({
+        where: {
+            id: id
+        },
+        data: {
+            likes: { increment: 1 }
+        }
+    })
 }
