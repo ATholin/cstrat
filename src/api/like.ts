@@ -1,12 +1,10 @@
 "use server"
 import { UserRole } from "@prisma/client"
-import { getServerSession } from "next-auth"
-import { getSession } from "next-auth/react"
-import { createAuthOptions } from "~/server/auth"
 import { prisma } from "~/server/db"
+import getServerSession from "~/utils/getServerSession"
 
 export default async function like(id: string) {
-    const session = await getServerSession(createAuthOptions())
+    const session = await getServerSession()
     console.log(session?.user)
     return session?.user.role === UserRole.ADMIN ? await prisma.strategy.update({
         where: {

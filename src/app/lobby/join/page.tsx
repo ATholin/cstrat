@@ -1,4 +1,3 @@
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -6,6 +5,7 @@ import { Label } from "~/components/ui/label";
 import { TypographyHeading, TypographyMuted } from "~/components/ui/typography";
 import { createAuthOptions } from "~/server/auth";
 import { prisma } from "~/server/db";
+import getServerSession from "~/utils/getServerSession";
 
 async function joinLobby(formData: FormData) {
     "use server"
@@ -18,7 +18,7 @@ async function joinLobby(formData: FormData) {
     })
 
     if (lobby) {
-        const session = await getServerSession(createAuthOptions())
+        const session = await getServerSession()
         await prisma.user.update({
             where: { id: session?.user.id },
             data: {

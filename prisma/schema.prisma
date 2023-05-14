@@ -57,7 +57,7 @@ model User {
   sessions      Session[]
   role          UserRole  @default(USER)
   lobbyId       String?
-  lobby         Lobby?    @relation("LobbyUsers", fields: [lobbyId], references: [id])
+  lobby         Lobby?    @relation("LobbyUsers", fields: [lobbyId], references: [id], onDelete: SetNull)
   ownedLobby    Lobby?
 }
 
@@ -111,7 +111,7 @@ model Lobby {
   strategy   Strategy? @relation(fields: [strategyId], references: [id], onDelete: SetNull)
   map        Map?
   side       Side?
-  ownerId    String    @unique
-  owner      User      @relation(fields: [ownerId], references: [id])
+  ownerId    String?   @unique
+  owner      User?     @relation(fields: [ownerId], references: [id])
   users      User[]    @relation("LobbyUsers")
 }

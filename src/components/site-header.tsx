@@ -1,15 +1,15 @@
 
-import { getServerSession } from "next-auth"
 import { NextAuthProvider } from "~/app/providers"
 import { MainNav } from "~/components/main-nav"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { siteConfig } from "~/config/site"
-import { createAuthOptions } from "~/server/auth"
 import SignIn from "./sign-in"
 import SignOut from "./sign-out"
+import LobbyLinks from "./lobby-links"
+import getServerSession from "~/utils/getServerSession"
 
 export default async function SiteHeader() {
-    const session = await getServerSession(createAuthOptions())
+    const session = await getServerSession()
 
     return (
         <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -32,6 +32,8 @@ export default async function SiteHeader() {
                                 <span className="sr-only">GitHub</span>
                             </div>
                         </Link> */}
+                        {/* @ts-ignore RSC */}
+                        <LobbyLinks />
                         <ThemeToggle />
                         <NextAuthProvider>
                             {session?.user && (

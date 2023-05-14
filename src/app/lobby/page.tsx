@@ -1,9 +1,12 @@
 import { getSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { leaveLobby, newStrategy } from "~/api/lobby";
+import LeaveLobby from "~/components/leave-lobby";
 import LobbyCopyButton from "~/components/lobby-copy-button";
 import { Button } from "~/components/ui/button";
 import { TypographyH1, TypographyH3, TypographyHeading, TypographyMuted } from "~/components/ui/typography";
 import { prisma } from "~/server/db";
+
 
 export default async function Lobby() {
     const session = await getSession()
@@ -32,9 +35,8 @@ export default async function Lobby() {
                 </div>
                 <div className="flex justify-end shadow space-x-2">
                     {lobby && <LobbyCopyButton lobby={lobby} />}
-                    <Button variant='outline'>
-                        Leave lobby
-                    </Button>
+                    {/* @ts-ignore Server Actions */}
+                    <LeaveLobby leaveLobby={leaveLobby} />
                 </div>
             </div>
             <div className="mt-10 flex-1">
@@ -44,6 +46,11 @@ export default async function Lobby() {
                     <TypographyH3 className="mt-2">{lobby?.strategy?.description}</TypographyH3>
                 </div>
             </div>
+
+            {/* @ts-ignore Server Action */}
+            <form action={newStrategy} className="mt-4">
+                <Button>New strategy</Button>
+            </form>
         </div>
     )
 }
