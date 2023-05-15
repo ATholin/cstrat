@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -10,6 +11,11 @@ import getServerSession from "~/utils/getServerSession";
 async function joinLobby(formData: FormData) {
     "use server"
 
+    const session = await getServerSession()
+    if (!session?.user) {
+        return redirect("/")
+    }
+
     const shareId = formData.get('shareId')?.toString()
     const lobby = await prisma.lobby.findFirst({
         where: {
@@ -18,7 +24,6 @@ async function joinLobby(formData: FormData) {
     })
 
     if (lobby) {
-        const session = await getServerSession()
         await prisma.user.update({
             where: { id: session?.user.id },
             data: {
@@ -26,13 +31,20 @@ async function joinLobby(formData: FormData) {
             }
         })
 
-        return redirect("lobby")
+        revalidatePath(`/lobby/${lobby.shareId}`)
+        return redirect(`/lobby/${lobby.shareId}`)
     }
 
     return false
 }
 
 export default async function JoinLobby() {
+
+    const session = await getServerSession()
+    if (!session?.user) {
+        return redirect("/")
+    }
+
     return (
         <div className="container max-w-5xl flex-1">
             <div>

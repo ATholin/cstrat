@@ -2,25 +2,15 @@
 
 import { createLobby, leaveLobbyAction } from "~/api/lobby"
 import { Button } from "./ui/button"
-import { useRouter } from "next/navigation"
-import { useTransition } from "react"
-
+import SubmitButton from "./submit-button"
 export default function CreateLobby() {
-    const router = useRouter()
-    const [_, setTransition] = useTransition()
-
     return (
         <>
             {/* @ts-ignore Server Actions */}
-            <form action={async () => {
-                await createLobby()
-                setTransition(() => {
-                    router.refresh()
-                })
-            }}>
-                <Button>
+            <form action={createLobby}>
+                <SubmitButton>
                     Create lobby
-                </Button>
+                </SubmitButton>
             </form>
         </>
     )

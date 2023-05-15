@@ -32,7 +32,7 @@ export default async function Strategies() {
                     Suggest strategy
                 </Link>
             </div>
-            <div className="mt-2">
+            <div className="mt-4">
                 <DataTable columns={columns} data={strategies}/>
             </div>
         </div>

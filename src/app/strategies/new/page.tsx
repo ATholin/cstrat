@@ -13,12 +13,14 @@ async function createStrategy(formData: FormData) {
     "use server"
 
     const maps = formData.getAll('maps') as Map[]
+    const side = formData.get('side') as Side
+
     await prisma.strategy.create({
         data: {
             title: formData.get('title')?.toString() ?? "",
             description: formData.get('description')?.toString() ?? "",
             maps: maps,
-            side: formData.has('side') ? formData.get('side') as Side : null
+            side: !!side ? side : null
         }
     })
 
@@ -60,7 +62,7 @@ export default async function AddStrategy() {
                     <div className="w-full">
                         <Label htmlFor="map">Side</Label>
                         <div className="mt-1 w-full">
-                            <Select required name="side">
+                            <Select defaultValue="" name="side">
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select a side" />
                                 </SelectTrigger>

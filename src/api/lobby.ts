@@ -50,7 +50,8 @@ export async function createLobby() {
     const session = await getServerSession()
     if (session?.user) {
         if (session.user.lobbyId) {
-            return redirect("lobby")
+            const existingLobby = await getUserLobby()
+            return redirect(`/lobby/${existingLobby?.shareId}`)
         }
 
         const lobby = await prisma.lobby.create({
@@ -67,8 +68,8 @@ export async function createLobby() {
             }
         })
 
-        revalidatePath("/lobby")
-        return redirect("/lobby")
+        revalidatePath("/")
+        return redirect(`/lobby/${lobby.shareId}`)
     }
 
 }
@@ -83,13 +84,18 @@ export async function newStrategy() {
             side: userLobby?.side ?? undefined
         })
 
-        await prisma.lobby.update({
+        const res = await prisma.lobby.update({
             where: { id: userLobby.id },
             data: {
                 strategyId: newStrat?.id
+            },
+            include: {
+                strategy: true
             }
         })
+
+        return res.strategy
     }
 
-    revalidatePath("/lobby")
+    return null
 }

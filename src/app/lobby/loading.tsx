@@ -1,3 +1,8 @@
+import { TypographyMuted } from "~/components/ui/typography";
+
 export default function Loading() {
-    return <>Loading lobby...</>
+    return <div className="container">
+        <TypographyMuted className="text-center">Loading...</TypographyMuted>
+
+    </div>
 }

@@ -1,27 +1,20 @@
 "use client"
 
-import { leaveLobbyAction } from "~/api/lobby"
+import { experimental_useFormStatus as useFormStatus } from "react-dom"
+import { leaveLobby } from "~/api/lobby"
 import { Button } from "./ui/button"
-import { useRouter } from "next/navigation"
-import { useTransition } from "react"
+import SubmitButton from "./submit-button"
 
-export default function LeaveLobby({ leaveLobby }: { leaveLobby: leaveLobbyAction }) {
-    const router = useRouter()
-    const [_, setTransition] = useTransition()
-
+export default function LeaveLobby() {
     return (
         <>
             {/* @ts-ignore Server Actions */}
-            <form action={async () => {
-                await leaveLobby()
-                setTransition(() => {
-                    router.refresh()
-                })
-            }}>
-                <Button variant='outline'>
+            <form action={leaveLobby}>
+                <SubmitButton variant='outline'>
                     Leave lobby
-                </Button>
+                </SubmitButton>
             </form>
         </>
     )
 }
+

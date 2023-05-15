@@ -33,7 +33,7 @@ export default async function SiteHeader() {
                             </div>
                         </Link> */}
                         {/* @ts-ignore RSC */}
-                        <LobbyLinks />
+                        {session?.user && <LobbyLinks />}
                         <ThemeToggle />
                         <NextAuthProvider>
                             {session?.user && (

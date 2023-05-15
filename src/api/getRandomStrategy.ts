@@ -9,16 +9,16 @@ export type GetRandomStrategyOptions = {
 export async function GetRandomStrategy(options?: GetRandomStrategyOptions) {
     "use server"
 
-    const productsCount = (await prisma.strategy.count({
+    const productsCount = await prisma.strategy.count({
         where: {
-            maps: options?.map ? { hasSome: options?.map }: undefined,
-            side: options?.side
+            maps: options?.map ? { hasSome: options?.map } : { isEmpty: true },
+            side: options?.side ?? null
         }
-    }))
+    })
     const skip = Math.floor(Math.random() * productsCount);
     return await prisma.strategy.findFirst({
         where: {
-            maps: options?.map ? { hasSome: options.map }: undefined,
+            maps: options?.map ? { hasSome: options.map } : undefined,
             side: options?.side
         },
         skip: skip,
