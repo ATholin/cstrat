@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import getServerSession from "~/utils/getServerSession";
 import { revalidatePath } from "next/cache";
 import { GetRandomStrategy } from "./getRandomStrategy";
+import { ably } from "~/server/ably";
 const nanoid = customAlphabet('1234567890abcdef', 5)
 
 export async function getUserLobby() {
@@ -26,6 +27,10 @@ export async function getUserLobby() {
 export async function leaveLobby() {
     const session = await getServerSession()
     const lobby = await getUserLobby()
+
+    if (!session?.user) {
+        return redirect("/")
+    }
 
     if (lobby?.ownerId === session?.user.id) {
         await prisma.lobby.delete({
@@ -78,10 +83,15 @@ export type createLobbyAction = typeof createLobby
 
 export async function newStrategy() {
     const userLobby = await getUserLobby()
+    const session = await getServerSession()
+
+    if (session?.user.id !== userLobby?.ownerId) return null
+
     if (userLobby) {
         const newStrat = await GetRandomStrategy({
             map: userLobby?.map ?? undefined,
-            side: userLobby?.side ?? undefined
+            side: userLobby?.side ?? undefined,
+            ignoreIds: userLobby.strategyId ? [userLobby.strategyId] : undefined
         })
 
         const res = await prisma.lobby.update({
@@ -94,7 +104,27 @@ export async function newStrategy() {
             }
         })
 
+        const channel = ably.channels.get(`lobby-${res.id}`)
+        await channel.publish('new-strategy', res.strategy)
+
         return res.strategy
+    }
+
+    return null
+}
+
+export async function getStrategy() {
+    const userLobby = await getUserLobby()
+    if (userLobby) {
+        const lobbyStrategy = await prisma.lobby.findFirst({
+            where: {
+                id: userLobby.id
+            },
+            select: {
+                strategy: true
+            }
+        })
+        return lobbyStrategy?.strategy
     }
 
     return null

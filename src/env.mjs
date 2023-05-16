@@ -21,6 +21,7 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: z.string().optional(),
     STEAM_SECRET: z.string(),
     STEAM_REDIRECT_URI: z.string(),
+    ABLY_API_KEY: z.string(),
   },
 
   /**
@@ -30,6 +31,7 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_ABLY_API_ROOT: z.string()
   },
 
   /**
@@ -44,5 +46,7 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     STEAM_SECRET: process.env.STEAM_SECRET,
     STEAM_REDIRECT_URI: process.env.STEAM_REDIRECT_URI,
+    ABLY_API_KEY: process.env.ABLY_API_KEY,
+    NEXT_PUBLIC_ABLY_API_ROOT: process.env.NEXT_PUBLIC_ABLY_API_ROOT
   },
 });

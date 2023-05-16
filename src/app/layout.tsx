@@ -10,6 +10,7 @@ import { siteConfig } from "~/config/site"
 import { cn } from "~/lib/utils"
 import { NextAuthProvider } from "./providers"
 import { Toaster } from "~/components/ui/toaster"
+import AblyProvider from "~/components/ably-provider"
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -56,13 +57,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     )}
                 >
                     <NextAuthProvider>
-                        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                            <div className="relative flex min-h-screen flex-col space-y-6">
-                                {/* @ts-expect-error Server Component */}
-                                <SiteHeader />
-                                <div className="flex-1 flex">{children}</div>
-                            </div>
-                        </ThemeProvider>
+                        <AblyProvider>
+                            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                                <div className="relative flex min-h-screen flex-col space-y-6">
+                                    {/* @ts-expect-error Server Component */}
+                                    <SiteHeader />
+                                    <div className="flex-1 flex">{children}</div>
+                                </div>
+                            </ThemeProvider>
+                        </AblyProvider>
                     </NextAuthProvider>
                     <Toaster />
                 </body>
