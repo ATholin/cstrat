@@ -10,6 +10,8 @@ import LobbyUserList from "./lobby-user-list";
 import LobbyStrategyCard from "./lobby-strategy-card";
 import SubmitButton from "~/components/submit-button";
 import { newStrategy } from "~/api/lobby";
+import LobbyOptions from "~/app/lobby/[shareId]/lobby-options";
+
 
 export default async function Lobby({ params }: PageProps) {
     const session = await getServerSession()
@@ -54,9 +56,12 @@ export default async function Lobby({ params }: PageProps) {
                     {/* @ts-ignore Server Actions */}
                     <LeaveLobby />
                     {lobby.ownerId === session?.user.id && (
-                        <form action={newStrategy}>
-                            <SubmitButton>New strategy</SubmitButton>
-                        </form>
+                        <>
+                            <LobbyOptions lobby={lobby} />
+                            <form action={newStrategy}>
+                                <SubmitButton>New strategy</SubmitButton>
+                            </form>
+                        </>
                     )}
                 </div>
             </div>

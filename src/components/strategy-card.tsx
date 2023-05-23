@@ -30,8 +30,8 @@ export default function StrategyCard({ showSelects = true, showNewStrategy = tru
         const side = formData.get('side')
 
         const options: GetRandomStrategyOptions = {
-            map: map === "" ? undefined : map as Map,
-            side: side === "" ? undefined : side as Side,
+            map: map === "" ? null : map as Map,
+            side: side === "" ? null : side as Side,
         }
 
         // @ts-ignore

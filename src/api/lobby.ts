@@ -2,13 +2,13 @@
 
 import { createAuthOptions } from "~/server/auth";
 import { prisma } from "~/server/db";
-
 import { customAlphabet } from 'nanoid'
 import { redirect } from "next/navigation";
 import getServerSession from "~/utils/getServerSession";
 import { revalidatePath } from "next/cache";
 import { GetRandomStrategy } from "./getRandomStrategy";
 import { ably } from "~/server/ably";
+import { Map, Side } from "@prisma/client";
 const nanoid = customAlphabet('1234567890abcdef', 5)
 
 export async function getUserLobby() {
@@ -89,8 +89,8 @@ export async function newStrategy() {
 
     if (userLobby) {
         const newStrat = await GetRandomStrategy({
-            map: userLobby?.map ?? undefined,
-            side: userLobby?.side ?? undefined,
+            map: userLobby?.map,
+            side: userLobby?.side,
             ignoreIds: userLobby.strategyId ? [userLobby.strategyId] : undefined
         })
 
@@ -128,4 +128,16 @@ export async function getStrategy() {
     }
 
     return null
+}
+
+export async function setLobbyOptions(map: Map | null, side: Side | null) {
+    const userLobby = await getUserLobby()
+    if (userLobby) {
+        await prisma.lobby.update({
+            where: { id: userLobby.id },
+            data: { map, side }
+        })
+
+        await newStrategy()
+    }
 }
